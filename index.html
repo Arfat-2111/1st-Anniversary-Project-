@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Anniversary 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #1a0f2e, #0a0514);
+      color: white;
+    }
+
+    /* Slide container */
+    .slide {
+      display: none;
+      height: 100vh;
+      width: 100vw;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    img.shot {
+      max-width: 80%;
+      max-height: 60vh;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      margin: 10px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover { transform: scale(1.1); }
+
+    /* Final slide heart */
+    .heart-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .heart-text {
+      position: absolute;
+      text-align: center;
+      color: white;
+    }
+    .heart-text h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+    .heart-text p {
+      font-size: 20px;
+      margin: 5px 0 0 0;
+    }
+
+    .closing-message {
+      position: absolute;
+      bottom: 50px;
+      width: 100%;
+      text-align: center;
+      font-size: 20px;
+      opacity: 0;
+      animation: fadeIn 5s forwards 6s;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Floating hearts & cats */
+    .float {
+      position: absolute;
+      animation: floatUp 10s infinite linear;
+      opacity: 0.6;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(100vh) scale(0.5); }
+      to { transform: translateY(-10vh) scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Slide 1 -->
+  <div class="slide active">
+    <h2>Do you remember the day we met?</h2>
+    <img class="shot" src="Screenshot_20250913_130934.jpg" alt="First chat">
+    <button onclick="nextSlide()">Next ➡️</button>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide">
+    <h2>And how can we forget this day, full of different emotions</h2>
+    <img class="shot" src="IMG_20250912_150541.jpg" alt="Proposal chat">
+    <button onclick="nextSlide()">Next ➡️</button>
+  </div>
+
+  <!-- Slide 2.2 -->
+  <div class="slide">
+    <h2>Yeah we had some ups and downs in our journey ❤️</h2>
+    <img class="shot" src="Screenshot_20250913_200712.jpg" alt="Ups 1">
+    <img class="shot" src="Screenshot_20250913_195857.jpg" alt="Ups 2">
+    <button onclick="nextSlide()">Next ➡️</button>
+  </div>
+
+  <!-- Slide 2.3 -->
+  <div class="slide">
+    <h2>But yes we proved that our bond is unbreakable 💖 and with every tomorrow we love each other more and more 🌸</h2>
+    <img class="shot" src="Screenshot_20250913_201205.jpg" alt="Bond 1">
+    <img class="shot" src="Screenshot_20250913_201434.jpg" alt="Bond 2">
+    <button onclick="nextSlide()">Next ➡️</button>
+  </div>
+
+  <!-- Final Slide -->
+  <div class="slide">
+    <div class="heart-container">
+      <canvas id="flowerHeart"></canvas>
+      <div class="heart-text">
+        <h1>Arfat ❤️ Nandini</h1>
+        <p id="countdown"></p>
+      </div>
+      <div class="closing-message">
+        Happy anniversary my love 💖<br>
+        Thank you for being you, for being mine, for being us.<br>
+        Since that first “Hey, I know you,” every second with you is a memory,<br>
+        every day with you is a blessing, every year with you is my forever 🌹✨
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Slide navigation
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    function nextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide++;
+      slides[currentSlide].classList.add('active');
+    }
+
+    // Countdown timer
+    const countdown = document.getElementById("countdown");
+    const startDate = new Date("September 14, 2024 00:45:00").getTime();
+    setInterval(() => {
+      let now = new Date().getTime();
+      let diff = now - startDate;
+      let days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      let hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      let secs = Math.floor((diff % (1000 * 60)) / 1000);
+      countdown.innerText = `${days} Days ${hours} Hours ${mins} Minutes ${secs} Seconds`;
+    }, 1000);
+
+    // Flower-traced heart
+    const canvas = document.getElementById("flowerHeart");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const rose = new Image();
+    rose.src = "pngtree-pink-rose-decoration-png-image_10013932.png"; 
+    const lily = new Image();
+    lily.src = "pngtree-white-lily-flower-png-image_10012327.png"; 
+
+    let t = 0;
+    function drawHeart() {
+      const x = 16 * Math.sin(t) ** 3;
+      const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+      const px = canvas.width/2 + x * 20;
+      const py = canvas.height/2 + y * 20;
+
+      const img = Math.random() > 0.5 ? rose : lily;
+      ctx.drawImage(img, px, py, 40, 40);
+
+      t += 0.2;
+      if (t < 2*Math.PI) {
+        requestAnimationFrame(drawHeart);
+      }
+    }
+    rose.onload = lily.onload = () => drawHeart();
+
+    // Floating decorations
+    function createFloat(icon) {
+      const el = document.createElement("div");
+      el.className = "float";
+      el.innerText = icon;
+      el.style.left = Math.random()*100 + "vw";
+      el.style.fontSize = (Math.random()*20+20) + "px";
+      el.style.animationDuration = (5+Math.random()*10) + "s";
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 15000);
+    }
+    setInterval(() => createFloat("❤️"), 1500);
+    setInterval(() => createFloat("🐱"), 7000);
+    setInterval(() => createFloat("✨"), 4000);
+  </script>
+</body>
+      </html>
